@@ -1,50 +1,39 @@
-const baseCheckWin = (board, currentPl) => {
-  // check every position
-  // there is a conditional for all 15 win conditions
-  if (board[0][0] === board[0][1] && board[0][1] === board[0][2]) {
-    // XXX
-    console.log("win!");
-  } 
+const checkWin = (row, col, symbol) => {
+  return checkUpDown(row,col,symbol) || checkDiagonal(row,col,symbol);
+}
 
-  if (board[1][0] === board[1][1] && board[1][1] === board[1][2]) {
-    //
-    // XXX
-    console.log("win!");
+const checkUpDown = (row, col, symbol) => {
+  const rowArr = board[row];
+  const colArr = []
+  for(let i = 0; i < gridSize; i+= 1) {
+    colArr.push(board[i][col]);
   }
-  if (board[2][0] === board[2][1] && board[2][1] === board[2][2]) {
-    //
-    //
-    // XXX
-    console.log("win!");
+  let rowWin = true;
+  let colWin = true;
+  for(let i = 0; i < gridSize; i +=1) {
+    if(rowArr[i] !== symbol){
+      rowWin = false;
+    }
+    if(colArr[i] !== symbol){
+      colWin = false;
+    }
   }
-  if (board[0][0] === board[1][0] && board[1][0] === board[2][0]) {
-    // X
-    // X
-    // X
-    console.log("win!");
+  return rowWin || colWin;
+}
+
+const checkDiagonal = (row, col, symbol) => {
+  if(row !== col && (row + col) !== gridSize -1) {
+    return false;
   }
-  if (board[0][1] === board[1][1] && board[1][1] === board[2][1]) {
-    //  |X|
-    //  |X|
-    //  |X|
-    console.log("win!");
+  let leftDiag = true;
+  let rightDiag = true;
+  for (let i = 0; i < gridSize; i+=1){
+    if(board[i][i] !== symbol){
+      leftDiag = false;
+    }
+    if(board[i][gridSize - 1 - i] !== symbol) {
+      rightDiag = false;
+    }
   }
-  if (board[0][2] === board[1][2] && board[1][2] === board[2][2]) {
-    //  | |X
-    //  | |X
-    //  | |X
-    console.log("win!");
-  }
-  if (board[0][0] === board[1][1] && board[1][1] === board[2][2]) {
-    // X| |
-    //  |X|
-    //  | |X
-    console.log("win!");
-  }
-  if (board[0][2] === board[1][1] && board[1][1] === board[2][0]) {
-    //  | |X
-    //  |X|
-    // X| |
-    console.log("win!");
-  }
-};
+  return leftDiag || rightDiag;
+}

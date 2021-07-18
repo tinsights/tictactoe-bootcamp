@@ -1,3 +1,6 @@
+const gridSize = 3;
+let gameOver = false;
+
 // keep data about the game in a 2-D array
 const board = [
   ['', '', ''],
@@ -72,7 +75,7 @@ const squareClick = (row, col) => {
   console.log('coordinates', row, col);
 
   // see if the clicked square has been clicked on before
-  if (board[row][col] === '') {
+  if (board[row][col] === '' && !gameOver) {
     // alter the data array, set it to the current player
     board[row][col] = currentPlayer;
 
@@ -81,7 +84,10 @@ const squareClick = (row, col) => {
     buildBoard(board);
 
     // check for win
-    baseCheckWin(board, currentPlayer);
+    if(checkWin(row, col, currentPlayer)) {
+        gameOver = true;
+      }
+
     // change the player
     togglePlayer();
   }
