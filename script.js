@@ -44,11 +44,12 @@ const initGame = () => {
     board.push(new Array(gridSize).fill(''));
     boardClone.push(new Array(gridSize).fill(0));
   }
+  boardContainer.className = 'active';
   document.body.appendChild(boardContainer);
   
   // build the board - right now it's empty
   buildBoard(board);
-  if(coinFlip) {
+  if(coinFlip()) {
     canClick = false;
     console.log("Computer Starts!");
     computerMove();
@@ -163,5 +164,5 @@ const gameToggle = () => {
 }
 
 const coinFlip = () => {
-  return Math.round(Math.rand());
+  return Math.round(Math.random());
 }
