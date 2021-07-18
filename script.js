@@ -1,5 +1,5 @@
 // Global variables:
-let gameOver = true;      // bool to keep track if game has ended (tie or win)
+let canClick;             // bool to keep track if game has ended (tie or win)
 let turnCount;            // number of turns passed (used to check for tie)
 
 let board;                // keep data about the game in a 2-D array
@@ -33,6 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // create the board container element and put it on the screen
 const initGame = () => {
   gameToggle()
+  canClick = true;
   board = [];
   turnCount = 1;
   gridSize = Number(sizeSelector.value);
@@ -93,35 +94,52 @@ const togglePlayer = () => {
 };
 
 const squareClick = (row, col) => {
-  console.log('coordinates', row, col);
-
   // see if the clicked square has been clicked on before
-  if (typeof board[row][col] === 'undefined' && !gameOver) {
+  if (typeof board[row][col] === 'undefined' && canClick) {
+    console.log('coordinates', row, col);
+    canClick = false;
     // alter the data array, set it to the current player
     board[row][col] = currentPlayer;
 
     // refresh the creen with a new board
     // according to the array that was just changed
     buildBoard(board);
-
     // check for win
-    if(checkWin(row, col)) {
-        console.log("WIN");
-        gameToggle();
-        return;
-      }
-      else if (turnCount === gridSize * gridSize) {
-        console.log("TIE");
-        gameToggle();
-      }
+    if(checkWin(row,col)) {
+      console.log("WIN");
+      gameToggle();
+      return;
+    }
+    else if (turnCount === gridSize * gridSize) {
+      console.log("TIE");
+      gameToggle();
+      return;
+    }
 
     // change the player
     togglePlayer();
+    if(computerMove()){
+      setTimeout(() => {
+        buildBoard(board)
+        console.log("Computer Win!");
+        gameToggle();
+      }, 1000);
+    }
+    else if (turnCount === gridSize * gridSize) {
+      console.log("TIE");
+      gameToggle();
+    }
+    else{
+      setTimeout(() => {
+        buildBoard(board);
+        togglePlayer();
+        canClick = true;
+      }, 1000);
+    }
   }
 };
 
 const gameToggle = () => {
-  gameOver = !gameOver;
   startButton.disabled = !startButton.disabled;
   sizeSelector.disabled = !sizeSelector.disabled;
 }
