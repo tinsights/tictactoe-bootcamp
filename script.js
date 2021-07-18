@@ -37,7 +37,7 @@ const initGame = () => {
   canClick = true;
   board = [];
   boardClone = [];
-  turnCount = 0;
+  turnCount = 1;
   gridSize = Number(sizeSelector.value);
   winCond = gridSize;
   for(let i = 0; i < gridSize; i+=1) {
@@ -145,14 +145,15 @@ const squareClick = (row, col) => {
     else{
       setTimeout(() => {
         buildBoard(board);
-        togglePlayer();
         canClick = true;
         boardContainer.className = 'active'
         if (turnCount === gridSize * gridSize) {
           console.log("TIE");
           gameToggle();
           canClick = false;
+          return;
         }
+        togglePlayer();
       }, 1000);
     }
   }

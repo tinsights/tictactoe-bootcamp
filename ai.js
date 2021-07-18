@@ -1,7 +1,7 @@
 const computerMove = () => {
   boardContainer.className = 'faded';
   let winningSquare = findWinningSquare(-1);
-  console.log((findWinningSquare(-1)));
+  // console.log((findWinningSquare(-1)));
   if (winningSquare) {
     console.log('I can win!');
   }
