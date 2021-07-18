@@ -1,28 +1,37 @@
-const gridSize = 3;
+let gridSize = 3;
 let gameOver = false;
 
 // keep data about the game in a 2-D array
-const board = [
-  ['', '', ''],
-  ['', '', ''],
-  ['', '', ''],
-];
-
+const board = [];
 // the element that contains the rows and squares
 let boardElement;
 
 // the element that contains the entire board
 // we can empty it out for convenience
-let boardContainer;
+const boardContainer = document.createElement('div');
+const sizeSelector = document.createElement('input');
+const startButton = document.createElement('button');
+
+startButton.innerText = 'Start New Game'
+sizeSelector.type = 'number';
+sizeSelector.min = 3;
+sizeSelector.max = 5;
+sizeSelector.placeholder = "Board Size"
+
+document.body.appendChild(sizeSelector);
+document.body.appendChild(startButton);
 
 // current player global starts at X
 let currentPlayer = 'X';
 
 // create the board container element and put it on the screen
 const initGame = () => {
-  boardContainer = document.createElement('div');
-  document.body.appendChild(boardContainer);
+  gridSize = Number(sizeSelector.value);
 
+  for(let i = 0; i < gridSize; i+=1) {
+    board.push(new Array(gridSize));
+  }
+  document.body.appendChild(boardContainer);
   // build the board - right now it's empty
   buildBoard(board);
 };
@@ -50,7 +59,9 @@ const buildBoard = (board) => {
       square.classList.add('square');
 
       // set the text of the square according to the array
-      square.innerText = board[i][j];
+      if(typeof board[i][j] !== "undefined") {
+        square.innerText = board[i][j];
+      }
 
       rowElement.appendChild(square);
 
@@ -75,7 +86,7 @@ const squareClick = (row, col) => {
   console.log('coordinates', row, col);
 
   // see if the clicked square has been clicked on before
-  if (board[row][col] === '' && !gameOver) {
+  if (typeof board[row][col] === 'undefined' && !gameOver) {
     // alter the data array, set it to the current player
     board[row][col] = currentPlayer;
 
@@ -84,7 +95,8 @@ const squareClick = (row, col) => {
     buildBoard(board);
 
     // check for win
-    if(checkWin(row, col, currentPlayer)) {
+    if(checkWin(row, col)) {
+        console.log("WIN");
         gameOver = true;
       }
 
@@ -93,4 +105,4 @@ const squareClick = (row, col) => {
   }
 };
 
-initGame();
+startButton.addEventListener('click', initGame);
