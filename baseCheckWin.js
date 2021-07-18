@@ -1,6 +1,4 @@
-const checkWin = (row, col) => {
-  return checkUpDown(row,col) || checkDiagonal(row,col);
-}
+const checkWin = (row, col) => checkUpDown(row,col) || checkDiagonal(row,col);
 
 const checkUpDown = (row, col) => {
   const rowArr = board[row];

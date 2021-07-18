@@ -1,8 +1,9 @@
 // Global variables:
 let canClick;             // bool to keep track if game has ended (tie or win)
 let turnCount;            // number of turns passed (used to check for tie)
-
+let winCond = 3;          // win condition, # in a row
 let board;                // keep data about the game in a 2-D array
+let boardClone;           // keep numerical data about the game
 let boardElement;         // the element that contains the rows and squares
 let currentPlayer = 'X';  // current player global starts at X
 
@@ -18,7 +19,7 @@ const startButton = document.createElement('button');
 startButton.innerText = 'Start New Game'
 sizeSelector.type = 'number';
 sizeSelector.min = 3;
-sizeSelector.max = 5;
+sizeSelector.max = 4;
 sizeSelector.placeholder = "Board Size"
 
 // we want the inputs to stay on the top of the screen,
@@ -35,11 +36,13 @@ const initGame = () => {
   gameToggle()
   canClick = true;
   board = [];
+  boardClone = [];
   turnCount = 1;
   gridSize = Number(sizeSelector.value);
-
+  winCond = gridSize;
   for(let i = 0; i < gridSize; i+=1) {
-    board.push(new Array(gridSize));
+    board.push(new Array(gridSize).fill(''));
+    boardClone.push(new Array(gridSize).fill(0));
   }
   document.body.appendChild(boardContainer);
   // build the board - right now it's empty
@@ -69,7 +72,7 @@ const buildBoard = (board) => {
       square.classList.add('square');
 
       // set the text of the square according to the array
-      if(typeof board[i][j] !== "undefined") {
+      if(board[i][j] !== '') {
         square.innerText = board[i][j];
       }
 
@@ -95,17 +98,18 @@ const togglePlayer = () => {
 
 const squareClick = (row, col) => {
   // see if the clicked square has been clicked on before
-  if (typeof board[row][col] === 'undefined' && canClick) {
+  if (board[row][col] === '' && canClick) {
     console.log('coordinates', row, col);
     canClick = false;
     // alter the data array, set it to the current player
     board[row][col] = currentPlayer;
+    boardClone[row][col] = 1;
 
     // refresh the creen with a new board
     // according to the array that was just changed
     buildBoard(board);
     // check for win
-    if(checkWin(row,col)) {
+    if(checkWin(row,col,winCond)) {
       console.log("WIN");
       gameToggle();
       return;
@@ -118,7 +122,7 @@ const squareClick = (row, col) => {
 
     // change the player
     togglePlayer();
-    if(computerMove()){
+    if(computerMove(row,col)){
       setTimeout(() => {
         buildBoard(board)
         console.log("Computer Win!");
