@@ -1,4 +1,5 @@
-const computerMove = (row, col) => {
+const computerMove = () => {
+  boardContainer.className = 'faded';
   let winningSquare = findWinningSquare(-1);
   console.log((findWinningSquare(-1)));
   if (winningSquare) {
@@ -27,7 +28,3 @@ const computerMove = (row, col) => {
 };
 
 const randomSq = () => Math.floor(Math.random() * gridSize);
-
-console.log(summation([0, -1, -1]));
-console.log(summation([-1, 1, 1]));
-console.log(summation([1, -1, -1]));

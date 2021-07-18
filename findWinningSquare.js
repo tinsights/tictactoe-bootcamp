@@ -41,7 +41,14 @@ const findWinningSquare = (player) => {
     console.log(`Right diag is ${summation(rightDiag)}`);
     colIndex = rightDiag.indexOf(0);
     console.log(colIndex);
-    return [gridSize - 1 - colIndex, colIndex];
+    switch (player) {
+      case (1):
+        return [colIndex, gridSize - 1 - colIndex];
+        break;
+      case (-1):
+        return [gridSize - 1 - colIndex, colIndex];
+        break;
+    }
   }
   return false;
 };

@@ -37,7 +37,7 @@ const initGame = () => {
   canClick = true;
   board = [];
   boardClone = [];
-  turnCount = 1;
+  turnCount = 0;
   gridSize = Number(sizeSelector.value);
   winCond = gridSize;
   for(let i = 0; i < gridSize; i+=1) {
@@ -45,8 +45,20 @@ const initGame = () => {
     boardClone.push(new Array(gridSize).fill(0));
   }
   document.body.appendChild(boardContainer);
+  
   // build the board - right now it's empty
   buildBoard(board);
+  if(coinFlip) {
+    canClick = false;
+    console.log("Computer Starts!");
+    computerMove();
+    togglePlayer();
+    setTimeout(() => {
+    canClick = true;
+    buildBoard(board);
+    boardContainer.className = 'active';
+    }, 500);
+  }
 };
 
 // completely rebuilds the entire board every time there's a click
@@ -129,15 +141,17 @@ const squareClick = (row, col) => {
         gameToggle();
       }, 1000);
     }
-    else if (turnCount === gridSize * gridSize) {
-      console.log("TIE");
-      gameToggle();
-    }
     else{
       setTimeout(() => {
         buildBoard(board);
         togglePlayer();
         canClick = true;
+        boardContainer.className = 'active'
+        if (turnCount === gridSize * gridSize) {
+          console.log("TIE");
+          gameToggle();
+          canClick = false;
+        }
       }, 1000);
     }
   }
@@ -146,4 +160,8 @@ const squareClick = (row, col) => {
 const gameToggle = () => {
   startButton.disabled = !startButton.disabled;
   sizeSelector.disabled = !sizeSelector.disabled;
+}
+
+const coinFlip = () => {
+  return Math.round(Math.rand());
 }
