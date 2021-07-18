@@ -19,7 +19,7 @@ const startButton = document.createElement('button');
 startButton.innerText = 'Start New Game'
 sizeSelector.type = 'number';
 sizeSelector.min = 3;
-sizeSelector.max = 4;
+sizeSelector.max = 5;
 sizeSelector.placeholder = "Board Size"
 
 // we want the inputs to stay on the top of the screen,
