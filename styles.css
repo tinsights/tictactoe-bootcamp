@@ -17,12 +17,12 @@ input {
 
 .faded {
   width: fit-content;
-  margin: auto;
+  margin: 20px auto;
   background-color: rgba(146, 145, 145, 0.698);
 }
 .active {
   width: fit-content;
-  margin: auto;
+  margin: 20px auto;
   background-color: rgba(255, 255, 255, 0.561);
 }
 

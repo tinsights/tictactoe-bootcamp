@@ -33,13 +33,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // create the board container element and put it on the screen
 const initGame = () => {
-  gameToggle()
   canClick = true;
   board = [];
   boardClone = [];
   turnCount = 1;
   gridSize = Number(sizeSelector.value);
   winCond = gridSize;
+  if (gridSize <= 2 || gridSize > 5){
+    alert("Please input a valid grid size");
+    return 0;
+  }
+
+  gameToggle()
   for(let i = 0; i < gridSize; i+=1) {
     board.push(new Array(gridSize).fill(''));
     boardClone.push(new Array(gridSize).fill(0));
