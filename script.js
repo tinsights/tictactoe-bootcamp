@@ -1,31 +1,40 @@
-let gridSize = 3;
-let gameOver = false;
+// Global variables:
+let gameOver = true;      // bool to keep track if game has ended (tie or win)
+let turnCount;            // number of turns passed (used to check for tie)
 
-// keep data about the game in a 2-D array
-const board = [];
-// the element that contains the rows and squares
-let boardElement;
+let board;                // keep data about the game in a 2-D array
+let boardElement;         // the element that contains the rows and squares
+let currentPlayer = 'X';  // current player global starts at X
+
+// Global DOM elements:
 
 // the element that contains the entire board
 // we can empty it out for convenience
 const boardContainer = document.createElement('div');
+
+// User inputs
 const sizeSelector = document.createElement('input');
 const startButton = document.createElement('button');
-
 startButton.innerText = 'Start New Game'
 sizeSelector.type = 'number';
 sizeSelector.min = 3;
 sizeSelector.max = 5;
 sizeSelector.placeholder = "Board Size"
 
+// we want the inputs to stay on the top of the screen,
+// above the board
 document.body.appendChild(sizeSelector);
 document.body.appendChild(startButton);
 
-// current player global starts at X
-let currentPlayer = 'X';
+document.addEventListener("DOMContentLoaded", () => {
+  startButton.addEventListener('click', initGame);
+});
 
 // create the board container element and put it on the screen
 const initGame = () => {
+  gameToggle()
+  board = [];
+  turnCount = 1;
   gridSize = Number(sizeSelector.value);
 
   for(let i = 0; i < gridSize; i+=1) {
@@ -80,6 +89,7 @@ const buildBoard = (board) => {
 // switch the global values from one player to the next
 const togglePlayer = () => {
   currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+  turnCount += 1;
 };
 
 const squareClick = (row, col) => {
@@ -97,7 +107,12 @@ const squareClick = (row, col) => {
     // check for win
     if(checkWin(row, col)) {
         console.log("WIN");
-        gameOver = true;
+        gameToggle();
+        return;
+      }
+      else if (turnCount === gridSize * gridSize) {
+        console.log("TIE");
+        gameToggle();
       }
 
     // change the player
@@ -105,4 +120,8 @@ const squareClick = (row, col) => {
   }
 };
 
-startButton.addEventListener('click', initGame);
+const gameToggle = () => {
+  gameOver = !gameOver;
+  startButton.disabled = !startButton.disabled;
+  sizeSelector.disabled = !sizeSelector.disabled;
+}
