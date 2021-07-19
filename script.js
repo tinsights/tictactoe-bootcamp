@@ -140,7 +140,7 @@ const squareClick = (row, col) => {
 
     // change the player
     togglePlayer();
-    if (computerMove(row, col)) {
+    if (computerMove()) {
       setTimeout(() => {
         buildBoard(board);
         console.log('Computer Win!');
