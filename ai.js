@@ -4,7 +4,6 @@ const computerMove = () => {
   if (!winningSquare) {
     winningSquare = findWinningSquare(1);
   }
-  console.log(winningSquare);
   if (winningSquare) {
     const rowIndex = winningSquare[0];
     const colIndex = winningSquare[1];
