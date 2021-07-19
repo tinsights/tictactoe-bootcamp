@@ -1,6 +1,3 @@
-/* eslint-disable no-use-before-define */
-/* eslint-disable no-undef */
-// eslint-disable-next-line no-unused-vars
 const findWinningSquare = (player) => {
   const rowArr = [];
   const colArr = [];

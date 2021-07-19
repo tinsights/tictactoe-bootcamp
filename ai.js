@@ -1,14 +1,7 @@
-/* eslint-disable no-use-before-define */
-/* eslint-disable no-undef */
-// eslint-disable-next-line no-unused-vars
 const computerMove = () => {
   boardContainer.className = 'faded';
   let winningSquare = findWinningSquare(-1);
-  // console.log((findWinningSquare(-1)));
-  if (winningSquare) {
-    console.log('I can win!');
-  }
-  else {
+  if (!winningSquare) {
     winningSquare = findWinningSquare(1);
   }
   console.log(winningSquare);

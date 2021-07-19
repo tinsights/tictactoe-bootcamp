@@ -1,11 +1,11 @@
 // Global variables:
-let canClick;             // bool to keep track if game has ended (tie or win)
-let turnCount;            // number of turns passed (used to check for tie)
-let winCond = 3;          // win condition, # in a row
-let board;                // keep data about the game in a 2-D array
-let boardClone;           // keep numerical data about the game
-let boardElement;         // the element that contains the rows and squares
-let currentPlayer = 'X';  // current player global starts at X
+let canClick; // bool to keep track if game has ended (tie or win)
+let turnCount; // number of turns passed (used to check for tie)
+let winCond = 3; // win condition, # in a row
+let board; // keep data about the game in a 2-D array
+let boardClone; // keep numerical data about the game
+let boardElement; // the element that contains the rows and squares
+let currentPlayer = 'X'; // current player global starts at X
 
 // Global DOM elements:
 
@@ -16,18 +16,18 @@ const boardContainer = document.createElement('div');
 // User inputs
 const sizeSelector = document.createElement('input');
 const startButton = document.createElement('button');
-startButton.innerText = 'Start New Game'
+startButton.innerText = 'Start New Game';
 sizeSelector.type = 'number';
 sizeSelector.min = 3;
 sizeSelector.max = 5;
-sizeSelector.placeholder = "Board Size"
+sizeSelector.placeholder = 'Board Size';
 
 // we want the inputs to stay on the top of the screen,
 // above the board
 document.body.appendChild(sizeSelector);
 document.body.appendChild(startButton);
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener('DOMContentLoaded', () => {
   startButton.addEventListener('click', initGame);
 });
 
@@ -39,30 +39,30 @@ const initGame = () => {
   turnCount = 1;
   gridSize = Number(sizeSelector.value);
   winCond = gridSize;
-  if (gridSize <= 2 || gridSize > 5){
-    alert("Please input a valid grid size");
+  if (gridSize <= 2 || gridSize > 5) {
+    alert('Please input a valid grid size');
     return 0;
   }
 
-  gameToggle()
-  for(let i = 0; i < gridSize; i+=1) {
+  gameToggle();
+  for (let i = 0; i < gridSize; i += 1) {
     board.push(new Array(gridSize).fill(''));
     boardClone.push(new Array(gridSize).fill(0));
   }
   boardContainer.className = 'active';
   document.body.appendChild(boardContainer);
-  
+
   // build the board - right now it's empty
   buildBoard(board);
-  if(coinFlip()) {
+  if (coinFlip()) {
     canClick = false;
-    console.log("Computer Starts!");
+    console.log('Computer Starts!');
     computerMove();
     togglePlayer();
     setTimeout(() => {
-    canClick = true;
-    buildBoard(board);
-    boardContainer.className = 'active';
+      canClick = true;
+      buildBoard(board);
+      boardContainer.className = 'active';
     }, 500);
   }
 };
@@ -90,7 +90,7 @@ const buildBoard = (board) => {
       square.classList.add('square');
 
       // set the text of the square according to the array
-      if(board[i][j] !== '') {
+      if (board[i][j] !== '') {
         square.innerText = board[i][j];
       }
 
@@ -127,33 +127,33 @@ const squareClick = (row, col) => {
     // according to the array that was just changed
     buildBoard(board);
     // check for win
-    if(checkWin(row,col,winCond)) {
-      console.log("WIN");
+    if (checkWin(row, col, winCond)) {
+      console.log('WIN');
       gameToggle();
       return;
     }
-    else if (turnCount === gridSize * gridSize) {
-      console.log("TIE");
+    if (turnCount === gridSize * gridSize) {
+      console.log('TIE');
       gameToggle();
       return;
     }
 
     // change the player
     togglePlayer();
-    if(computerMove(row,col)){
+    if (computerMove(row, col)) {
       setTimeout(() => {
-        buildBoard(board)
-        console.log("Computer Win!");
+        buildBoard(board);
+        console.log('Computer Win!');
         gameToggle();
       }, 1000);
     }
-    else{
+    else {
       setTimeout(() => {
         buildBoard(board);
         canClick = true;
-        boardContainer.className = 'active'
+        boardContainer.className = 'active';
         if (turnCount === gridSize * gridSize) {
-          console.log("TIE");
+          console.log('TIE');
           gameToggle();
           canClick = false;
           return;
@@ -167,8 +167,6 @@ const squareClick = (row, col) => {
 const gameToggle = () => {
   startButton.disabled = !startButton.disabled;
   sizeSelector.disabled = !sizeSelector.disabled;
-}
+};
 
-const coinFlip = () => {
-  return Math.round(Math.random());
-}
+const coinFlip = () => Math.round(Math.random());
