@@ -1,3 +1,7 @@
+/* eslint-disable no-use-before-define */
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
+// eslint-disable-next-line max-len
 const checkWin = (row, col, inARow = winCond) => checkUpDown(row, col, inARow) || checkDiagonal(row, col, inARow);
 
 const checkUpDown = (row, col, inARow) => {
@@ -16,7 +20,7 @@ const checkUpDown = (row, col, inARow) => {
       }
     }
     else {
-      rowConsecutive - 0;
+      rowConsecutive = 0;
     }
     if (colArr[i] === currentPlayer) {
       colConsecutive += 1;

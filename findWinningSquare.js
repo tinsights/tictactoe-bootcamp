@@ -1,3 +1,6 @@
+/* eslint-disable no-use-before-define */
+/* eslint-disable no-undef */
+// eslint-disable-next-line no-unused-vars
 const findWinningSquare = (player) => {
   const rowArr = [];
   const colArr = [];
@@ -44,9 +47,9 @@ const findWinningSquare = (player) => {
     switch (player) {
       case (1):
         return [colIndex, gridSize - 1 - colIndex];
-        break;
       case (-1):
         return [gridSize - 1 - colIndex, colIndex];
+      default:
         break;
     }
   }
